@@ -1,0 +1,12 @@
+{
+  "ID":"9de3a0d5b488459586cf08b20c68b742",
+  "ActionKeyword":"pb",
+  "Name":"PluginBackup",
+  "Description":"a plugin to backup other plugins",
+  "Author":"cildhdi",
+  "Version":"1.0.0",
+  "Language":"csharp",
+  "Website":"https://github.com/cildhdi/Wox.Plugin.PluginBackup",
+  "IcoPath": "Images\\pic.png",
+  "ExecuteFileName":"Wox.Plugin.PluginBackup.dll"
+}
