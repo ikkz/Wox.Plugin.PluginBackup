@@ -2,4 +2,24 @@
 
 [![Build Status](https://travis-ci.com/cildhdi/Wox.Plugin.PluginBackup.svg?branch=master)](https://travis-ci.com/cildhdi/Wox.Plugin.PluginBackup)
 
-a wox plugin to backup other plugins
+一个备份wox插件与设置的wox插件
+
+
+
+### 安装
+
+到Release中下载插件包（推荐，可以获取最新版本），解压到wox主题文件夹中并重启wox
+
+或者打开wox，输入命令
+
+```
+wpm install PluginBackup
+```
+
+
+
+### 使用
+
+![usage](http://img02.sogoucdn.com/app/a/100520146/9075c33011d31cccbce69b87b175cbdc)
+
+默认路径为桌面，也可以附加路径.
