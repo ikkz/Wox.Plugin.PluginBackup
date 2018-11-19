@@ -8,9 +8,9 @@
 
 ### 安装
 
-到Release中下载插件包（推荐，可以获取最新版本），解压到wox主题文件夹中并重启wox
+到Release中下载插件包（推荐，可以获取最新版本），解压到wox插件文件夹中并重启wox
 
-或者打开wox，输入命令
+或者打开wox，输入命令（无法保证为最新版本）
 
 ```
 wpm install PluginBackup
@@ -23,3 +23,5 @@ wpm install PluginBackup
 ![usage](http://img02.sogoucdn.com/app/a/100520146/9075c33011d31cccbce69b87b175cbdc)
 
 默认路径为桌面，也可以附加路径.
+
+恢复后会自动退出wox使改动生效，可以重新打开。
