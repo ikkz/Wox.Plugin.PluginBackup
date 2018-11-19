@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace Wox.Plugin.PluginBackup
 {
+    //defines strings of wox's paths
     public static class GlobalState
     {
         private static string _plugin_name = "Wox.Plugin.PluginBackup";
@@ -16,11 +17,13 @@ namespace Wox.Plugin.PluginBackup
 
         public static void Init()
         {
+            //get wox's root path by this dll's path
             UriBuilder uri = new UriBuilder(Assembly.GetExecutingAssembly().CodeBase);
             _plugin_path = Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path));
             _wox_path = _plugin_path.Remove(_plugin_path.LastIndexOf(Path.DirectorySeparatorChar));
             _wox_path = _wox_path.Remove(_wox_path.LastIndexOf(Path.DirectorySeparatorChar));
 
+            //get desktop's directory(where plugins backup file will be save)
             _desktop_path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         }
         public static string PluginName() { return _plugin_name; }
@@ -47,20 +50,48 @@ namespace Wox.Plugin.PluginBackup
 
         public List<Result> Query(Query query)
         {
-            return null;
+            List<Result> results = new List<Result>();
+            const string ico = "Images\\pic.png";
+            string path = "";
+            if (query.RawQuery.IndexOf(' ') != -1)
+            {
+                path = query.RawQuery.Substring(query.RawQuery.IndexOf(' '));
+            }
+            path = path.Length == 0 ? GlobalState.DesktopDir() + Path.DirectorySeparatorChar + GlobalState.BackupFileName() : path;
+            results.Add(new Result
+            {
+                Title = "backup to:",
+                SubTitle = path,
+                IcoPath = ico,
+                Action = e =>
+                {
+                    Backup(path);
+                    return true;
+                }
+            });
+            results.Add(new Result
+            {
+                Title = "restore from:",
+                SubTitle = path,
+                IcoPath = ico,
+                Action = e =>
+                {
+                    Restore(path);
+                    return true;
+                }
+            });
+            return results;
         }
-
 
         public void Backup(string path)
         {
-            path = path.Length == 0 ? GlobalState.DesktopDir() + Path.DirectorySeparatorChar + GlobalState.BackupFileName() : path;
             if (File.Exists(path))
             {
                 try
                 {
                     File.Delete(path);
                 }
-                catch (System.IO.IOException)
+                catch (IOException)
                 {
                     return;
                 }
@@ -81,7 +112,6 @@ namespace Wox.Plugin.PluginBackup
 
         public void Restore(string path)
         {
-            path = path.Length == 0 ? GlobalState.DesktopDir() + Path.DirectorySeparatorChar + GlobalState.BackupFileName() : path;
             ZipFile zip = ZipFile.Read(path);
             List<string> existed_plugins = new List<string>();
             foreach (string pd in Directory.GetDirectories(GlobalState.WoxPluginsDir()))
@@ -93,11 +123,25 @@ namespace Wox.Plugin.PluginBackup
             }
             foreach (ZipEntry entry in zip)
             {
-                string filename = entry.FileName.Remove(entry.FileName.IndexOf('-')).Remove(0, entry.FileName.IndexOf('/') + 1);
-                if (!existed_plugins.Contains(filename))
-
-                    entry.Extract(GlobalState.WoxDir());
+                bool existed = false;
+                foreach (string name in existed_plugins)
+                {
+                    if (entry.FileName.Contains(name))
+                        existed = true;
+                }
+                if (!existed)
+                {
+                    try
+                    {
+                        entry.Extract(GlobalState.WoxDir());
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
             }
+            //kill wox directly because when you exit wox normally it will rewrite its setting files
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
     }
