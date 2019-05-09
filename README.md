@@ -20,7 +20,7 @@ wpm install PluginBackup
 
 ### 使用
 
-![usage](http://img02.sogoucdn.com/app/a/100520146/9075c33011d31cccbce69b87b175cbdc)
+![usage](http://s.cildhdi.top/190401/pb.png)
 
 默认路径为桌面，也可以附加路径.
 
