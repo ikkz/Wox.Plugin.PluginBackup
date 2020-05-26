@@ -20,7 +20,7 @@ wpm install PluginBackup
 
 ### 使用
 
-![usage](http://s.cildhdi.top/190401/pb.png)
+键入 pb 后会显示相关备份/恢复选项
 
 默认路径为桌面，也可以附加路径.
 
